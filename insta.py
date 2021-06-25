@@ -37,7 +37,7 @@ options.learning_rate = 0.0001
 #up to 5 jpg color images 
 #with a black and white mask png file per image
 #query must be a colored image
-folder_with_sample_folders = "/content/data/"
+folder_with_sample_folders = "/data/"
 model_weights_path = './VGG_b345_5_fewshot_DOGLSTM.h5'
 
 print("model loading....")
