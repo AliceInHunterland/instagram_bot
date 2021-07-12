@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -103,7 +104,7 @@ def make_img(opt,path):
     for idx in range(opt.nway):
           query[idx] = frame.copy()
       
-    query   = query   /255
+    query   = query / 255
     Ss_mask = model.predict([support, smask, query])
     Es_mask = Ss_mask
   
@@ -130,7 +131,7 @@ def make_img(opt,path):
 #                   cv2_imshow(blended)
 
                   print("saving results")
-                  tempPath='/content/tempres.jpg'
+                  tempPath='./tempres.jpg'
                   blended = cv2.resize(blended, (521,521))
                   cv2.imwrite(tempPath, blended)
                   print("done")
@@ -179,7 +180,7 @@ def text_parser(text):
     if any(word in text for word in myanimals):
         return [number+1 for number, animal in enumerate(myanimals) if animal in text], [animal for animal in myanimals if animal in text]
     else:
-        return [],[]
+        return [],['notindicated']
       
 def preparing_samples(classes,dirallsamples):
    
@@ -201,12 +202,11 @@ def preparing_samples(classes,dirallsamples):
   
   
 L = instaloader.Instaloader()
-L.login('fish.poster', 'loveisfish')
+L.login('lastfishchecker', 'loveisfish')
 
 
 insta_business_id='17841447575001964'
-access_token='EAACfdmd7010BADkeJ8eEqc5OeYdocjxwZBZCy8tI43SEHMcWNOSa00s1BaT0oXjNzv2jsAPOn8qWw0HZCAQ8J6wgxdUShlNZCR9yZBqrrVLZBv8qhTjrA2QHH9UhmmZA7gQyPpQuZBIzvpK1XZBi3Ldd114hvkm7OjXEqT2kgUhvZC6vgeiBz7jBOm' 
-
+access_token='EAACfdmd7010BAGoVx6gwyJqNv3cpMqEFEtSJdO9Yz4n3AMlSzMAbPvdQRC4KRJpkZC46oRzmE6Xg2mdMjGHAVkf911ZAsZBZA4xGLrxF4sF48Bg8ErA1P94ykj0Pp16ibv0IdBQxGnEgl3ZCviE1tCQ1O2SUYXa8gZCr6WF7LzyQZDZD'
 
 
 def insta_post_image(image,mention):
@@ -244,8 +244,7 @@ def tags_cheker(tags,SINCE, UNTIL, dirallsamples):
             lambda d: d['data']['hashtag']['edge_hashtag_to_media'],
             lambda n: instaloader.Post(L.context, n),
             {'tag_name': HASHTAG},
-            f"https://www.instagram.com/explore/tags/{HASHTAG}/"
-        )
+            f"https://www.instagram.com/explore/tags/{HASHTAG}/")
         #for post in post_iterator:
         for post in takewhile(lambda p: p.date > UNTIL, dropwhile(lambda p: p.date > SINCE, post_iterator)):
                 print(post.date)
@@ -257,11 +256,11 @@ def tags_cheker(tags,SINCE, UNTIL, dirallsamples):
                 preparing_samples(classes,dirallsamples)
 
                 prof_name=post.owner_profile.username
-                if os.path.exists("/content/temp.jpg"):
-                    os.remove("/content/temp.jpg")
-                wget.download(post.url,out='/content/temp.jpg')
+                if os.path.exists("./temp.jpg"):
+                    os.remove("./temp.jpg")
+                wget.download(post.url,out='./temp.jpg')
 
-                myimg = make_img(options,'/content/temp.jpg')
+                myimg = make_img(options,'./temp.jpg')
                 #
                 print('gettig url')
                 myurl=get_url(myimg)
@@ -276,18 +275,18 @@ def tags_cheker(tags,SINCE, UNTIL, dirallsamples):
 
 if __name__ == '__main__':
      parser = argparse.ArgumentParser()
-     parser.add_argument ('--min',default='6')
-     parser.add_argument ('--tag',default='biogeohub')
-     parser.add_argument ('--dirallsamples',default='')
+     parser.add_argument ('--min',default='58')
+     parser.add_argument ('--tag',default='biogeohab')
+     parser.add_argument ('--dirallsamples',default='/shared/bot/fewshot-segmentation/source_code/allanimals/')
      namespace = parser.parse_args(sys.argv[1:])
      #datetime.datetime.now()
    # d =  datetime.date.today()+ datetime.timedelta(days=10) 
-    mins=int(namespace.min)
-    tags= namespace.tag.split()
-    SINCE=datetime.datetime.now()
-    UNTIL = datetime.datetime.now()-datetime.timedelta(seconds=mins*60)
-    while True:
-        tags_cheker(tags,SINCE,UNTIL,dirallsamples)
+     mins=int(namespace.min)
+     tags= namespace.tag.split()
+     SINCE=datetime.datetime.now()
+     UNTIL = datetime.datetime.now()-datetime.timedelta(seconds=mins*60)
+     while True:
+        tags_cheker(tags,SINCE,UNTIL,namespace.dirallsamples)
         print('Next check after',mins)
         time.sleep(mins*60)
         SINCE=datetime.datetime.now()
