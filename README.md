@@ -12,3 +12,11 @@ test: https://colab.research.google.com/drive/1Mu7TwyR8GNyC6nkzcNV_xSWCQQXducHl?
 !wget https://github.com/OlegJakushkin/fewshot-segmentation/releases/download/1.1/VGG_b345_5_fewshot_DOGLSTM.h5
 !pip install instaloader
 !pip install wget
+
+
+
+
+
+
+samples
+https://drive.google.com/file/d/1HoDStaf0PIUBIMPpTbv0afGTX3SiAZqg/view?usp=sharing
